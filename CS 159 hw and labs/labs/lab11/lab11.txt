@@ -1,0 +1,337 @@
+The following program submission has been recorded:
+
+Student: dangd
+Class: CS159
+Section: 17916
+Assignment: lab11.c
+Submission: 2017-11-30 01:28
+
+If the above is incorrect, you are responsible for resubmitting the assignment or seeking assistance from a course staff member prior to the due date! Assignments will not be accepted by e-mail.
+
+If this is for a lab assignment, only one member is allowed to make a submission for the group.  Graders will not evaluate submissions from multiple group members to determine which effort you actually want graded.
+
+*** Please do not reply to this email ***
+
+The contents of the submission:
+/***************************************************************************
+*
+*  Programmers and Purdue Email Addresses:
+*	 1. santos45@purdue.edu
+*	 2. dangd@purdue.edu
+*	 3. askipwor@purdue.edu (delete line if no third partner)
+*
+*  Lab #: 11
+*:Q1
+
+*  Academic Integrity Statement:
+*
+*       We have not used source code obtained from
+*       any other unauthorized source, either modified
+*       or unmodified.  Neither have we provided access 
+*       to our code to another. The project we are submitting
+*       is our own original work.
+*
+*  Lab Division and Section: 11:30-1:20 Thursdays L08 17916
+*
+*  Program Description: This program receives 25 integers as input and displays the mean
+and standard deviation of the data. The program also looks for outliers in the data and
+calculates a new mean and standard deviation with the outliers excluded from the data set 
+if there happens to be outliers at all. 
+*
+***************************************************************************/
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+
+// Function Declarations
+
+void getArrayData(int*); 
+float getMeanArray(int*); 
+float getStandardDeviation(int*,float);
+float checkForOutliers(int*,float,float);
+float getMeanWithoutOutliers(int*,float,float,float);
+float getSDWithoutOutliers(int*,float,float,float,float);
+void outputFunction(float,float,float,float,float);
+
+int main(void)
+{
+  int IntegerArray[25]; // an array created to store the data set entered by the user
+  float MeanOfArray = 0; // the average of the array with outliers
+  float StandardDeviation = 0; // the standard deviation of the array with outliers
+  float TotalOutliers = 0; // the number of outliers in the data set
+  float MeanWithoutOutliers = 0; // the average of the array without the outliers
+  float SDWithoutOutliers = 0; // the standard deviation of the array without the outliers
+
+	getArrayData(IntegerArray);
+	MeanOfArray = getMeanArray(IntegerArray);
+	StandardDeviation = getStandardDeviation(IntegerArray,MeanOfArray);
+	TotalOutliers = checkForOutliers(IntegerArray,MeanOfArray,StandardDeviation);
+	MeanWithoutOutliers = getMeanWithoutOutliers(IntegerArray,TotalOutliers,MeanOfArray,StandardDeviation);
+	SDWithoutOutliers = getSDWithoutOutliers(IntegerArray,TotalOutliers,MeanWithoutOutliers,MeanOfArray,StandardDeviation);	
+	outputFunction(MeanOfArray,StandardDeviation,TotalOutliers,MeanWithoutOutliers,SDWithoutOutliers);
+	
+	return(0);
+} // main
+
+/***************************************************************************
+*
+*     Function Information
+*
+*     Name of Function: getArrayData
+*
+*     Programmer's Name: Jordan, Anthony, David
+*
+*     Function Return Type: void
+*
+*     Parameters (list data type, name, and comment one per line):
+*       1.int IntArray[] // array to store data entered by user
+*       2.
+*       3.
+*
+*     Function Description: this function takes the data set given by the user and stores it
+*     in an array called "IntegerArray"
+*
+***************************************************************************/
+void getArrayData(int IntArray[])
+{
+  // Local Declarations
+  int lcv = 0; // loop control variable to access each index of the array
+
+  // Statements
+	printf("\nEnter data now: ");
+	for(lcv = 0; lcv < 25; lcv++)
+	{
+		scanf("%d",&IntArray[lcv]);
+	}
+} // getArrayData
+
+/***************************************************************************
+*
+*     Function Information
+*
+*     Name of Function: getMeanArray
+*
+*     Programmer's Name: Jordan, Anthony, David
+*
+*     Function Return Type: float
+*
+*     Parameters (list data type, name, and comment one per line):
+*       1.int IntArray[] // array used to store data set entered by user 
+*       2.
+*       3.
+*
+*     Function Description: This function calculates the mean of the data set
+*
+***************************************************************************/
+float getMeanArray(int IntArray[])
+{
+  // Local Declarations
+  int lcv = 0; // loop control variable used to access array holding user's data
+  float sumofarray = 0; // sum of all elements in the array
+  float meanofarray = 0; // mean of the elements in the array
+  
+  // Statements
+	for(lcv = 0; lcv < 25; lcv++)
+		{
+			sumofarray += IntArray[lcv];
+		}
+	
+	meanofarray = sumofarray / 25.0;
+	
+	return(meanofarray);
+} // getMeanArray
+
+/***************************************************************************
+*
+*     Function Information
+*
+*     Name of Function: getStandardDeviation
+*
+*     Programmer's Name: Jordan, Anthony, David
+*
+*     Function Return Type: float
+*
+*     Parameters (list data type, name, and comment one per line):
+*       1.int IntArray[] // array used to store data set entered by user
+*       2.float meanofarray // mean of the elements in the array
+*       3.
+*
+*     Function Description: This function calculates the standard deviation of the data set
+*
+***************************************************************************/
+float getStandardDeviation(int IntArray[], float meanofarray)
+{
+  // Local Declarations
+  float standarddeviationofarray = 0; // variable that holds the standard deviation of the array
+  float size = 25.0; // size of the array
+  int lcv = 0; // loop control variable used to access the array
+  float sumofdifference = 0; // sum of the differences between the array elements and the mean of the array
+  
+  // Statements
+	for(lcv = 0; lcv < 25; lcv++)
+	{
+		sumofdifference += pow((IntArray[lcv] - meanofarray),2);
+	}
+	
+	standarddeviationofarray = sqrt((1.0 / (size - 1.0)) * sumofdifference);
+	
+	return(standarddeviationofarray);
+} // getStandardDeviation
+/***************************************************************************
+*
+*     Function Information
+*
+*     Name of Function: checkForOutliers
+*
+*     Programmer's Name: Jordan, Anthony, David
+*
+*     Function Return Type: float
+*
+*     Parameters (list data type, name, and comment one per line):
+*       1.int IntArray[] // array that stores data set entered by user
+*       2.float meanofarray // mean of all the elements in the array
+*       3.float standarddeviationofarray // standard deviation of the elements in the array
+*
+*     Function Description: This function checks the user's data for any outliers and counts the number of 
+*     outliers (a number is an outlier if the difference between the mean and the array element is greater than
+*     1.5 times the standard deviation of the array)
+*
+***************************************************************************/
+float checkForOutliers(int IntArray[], float meanofarray, float standarddeviationofarray)
+{
+  // Local Declarations
+  int lcv = 0; // loop control variable used to access the array
+  float numofoutliers = 0; // the number of outliers in the data set
+  
+  // Statements
+	for(lcv = 0; lcv < 25; lcv++)
+		{
+			if(fabs(meanofarray - IntArray[lcv]) > (1.5 * standarddeviationofarray))
+				{
+					numofoutliers++;
+				}
+		}
+	return(numofoutliers);
+} // checkForOutliers
+/***************************************************************************
+*
+*     Function Information
+*
+*     Name of Function: getMeanWithoutOutliers
+*
+*     Programmer's Name: Jordan, Anthony, David
+*
+*     Function Return Type: float
+*
+*     Parameters (list data type, name, and comment one per line):
+*       1.int IntArray[] // array that holds the user's data
+*       2.float numofoutliers // number of outliers found in the data set
+*       3.float meanofarray // mean of the elements in the data set
+*       4.float standarddeviationofarray // standard deviation of the elements in the data set
+*
+*     Function Description: This function finds the mean of the data set while excluding the outliers according to
+*     our definition of an outlier
+*
+***************************************************************************/
+float getMeanWithoutOutliers(int IntArray[], float numofoutliers, float meanofarray, float standarddeviationofarray)
+{
+  // Local Declarations
+  int lcv = 0; // loop control variable used to access the data set array
+  float size = 25; // size of the array
+  float sumofarray = 0; // sum of the elements in the array without the outliers
+  float meanofarraywithoutoutliers = 0; // mean of the elements in the array without the outliers
+  int temp; // variable that acts as temporary storage for the array element
+  
+  // Statements
+	for(lcv = 0; lcv < 25; lcv++)
+		{
+			temp = IntArray[lcv]; 
+			if(fabs(meanofarray - IntArray[lcv]) > (1.5 * standarddeviationofarray))
+				{
+					IntArray[lcv] = 0;
+				}
+      sumofarray += IntArray[lcv];
+			IntArray[lcv] = temp;
+		}
+	meanofarraywithoutoutliers = sumofarray / (size - numofoutliers);
+	return(meanofarraywithoutoutliers);
+} // getMeanWithoutOutliers
+
+/***************************************************************************
+*
+*     Function Information
+*
+*     Name of Function: getSDWithoutOutliers
+*
+*     Programmer's Name: Jordan, Anthony, David
+*
+*     Function Return Type: float
+*
+*     Parameters (list data type, name, and comment one per line):
+*       1.int IntArray[] // array that holds the user's data set
+*       2.float numofoutliers // number of outliers found in the original data set
+*       3.float meanofarraywithoutoutliers // mean of the array elements excluding outliers
+*       4.float meanofarray // mean of the original array
+*       5.float standarddeviationofarray // standard deviation of the original array
+*
+*     Function Description: This function excludes the outliers in the original data set and calculates the
+*     new standard deviation for the modified data set
+*
+***************************************************************************/
+float getSDWithoutOutliers(int IntArray[], float numofoutliers, float meanofarraywithoutoutliers, float meanofarray, float standarddeviationofarray)	
+{
+  // Local Declarations
+  int lcv = 0; // loop control variable used to access the array
+  float size = 25; // size of the data set
+  float sumofdifference = 0; // sum of the difference between each array element and the mean of the data set without outliers
+  float sdwithoutoutliers = 0; // the standard deviation without outliers
+
+  // Statements
+	for(lcv = 0; lcv < 25; lcv++)
+		{
+			if(fabs(IntArray[lcv] - meanofarray) <= (1.5 * standarddeviationofarray))
+				{
+					//sumofdifference += 0;
+					
+					sumofdifference += pow(((double)IntArray[lcv] - meanofarraywithoutoutliers),2);
+				}
+		  
+		}
+	sdwithoutoutliers = sqrt((1.0 / (size - 1.0 - numofoutliers)) * sumofdifference);
+	return(sdwithoutoutliers);
+} // getSDWithoutOutliers
+
+/***************************************************************************
+*
+*     Function Information
+*
+*     Name of Function: outputFunction
+*
+*     Programmer's Name: Jordan, Anthony, David
+*
+*     Function Return Type: void
+*
+*     Parameters (list data type, name, and comment one per line):
+*       1.float meanofarray // mean of the data set including outliers
+*       2.float standarddeviationofarray // standard deviation of the data set including outliers
+*       3.float numofoutliers // number of outliers found in data set
+*       4.float meanofarraywithoutoutliers // mean of the data set without outliers
+*       5.float sdwithoutoutliers // standard deviation of the data set without outliers
+*
+*     Function Description: This function displays the mean and standard deviation of the original data set, the number of 
+*     outliers in the original data set, and the mean and standard deviation of the data set without the outliers
+*
+***************************************************************************/
+void outputFunction(float meanofarray, float standarddeviationofarray, float numofoutliers, float meanofarraywithoutoutliers, float sdwithoutoutliers)
+{
+  // Statements
+	printf("\n\nMean of original data: %.2f\n", meanofarray);
+	printf("Standard Deviation of original data: %.2f\n", standarddeviationofarray);
+	if(numofoutliers > 0)
+	{
+		printf("\nTotal Outliers: %.0f\n", numofoutliers);
+		printf("Mean without outliers: %.2f\n", meanofarraywithoutoutliers);
+		printf("Standard Deviation without outliers: %.2f\n", sdwithoutoutliers);
+	}
+} // outputFunction
+

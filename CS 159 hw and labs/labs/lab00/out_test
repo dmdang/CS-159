@@ -1,0 +1,14 @@
+/***************************************************************************
+*
+*  Programmers and Purdue Email Addresses:
+*	 1. dangd@purdue.edu
+*	 2. sbalahar@purdue.edu
+  // EXECUTABLE STATEMENTS 
+  printf("Welcome to CS 159!\n");
+
+  return(0);
+}
+a.out*
+lab00.c
+lab00.txt
+out_test
